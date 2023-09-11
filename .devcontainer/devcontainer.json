@@ -1,0 +1,20 @@
+{
+	"name": "gatsby",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"forwardPorts": [
+		8000
+	],
+	"containerEnv": {
+		"GATSBY_TELEMETRY_DISABLED": "1"
+	},
+	"remoteUser": "node",
+	// "postCreateCommand": "yarn install"
+	"postCreateCommand": "sudo chown node node_modules && yarn install",
+	"mounts": [
+		"source=${localWorkspaceFolderBasename}-global-npm,target=/usr/local/lib/node_modules/,type=volume",
+		"source=${localWorkspaceFolderBasename}-npm,target=${containerWorkspaceFolder}/node_modules/,type=volume",
+	 	"source=/localhost/path/to/notes,target=${containerWorkspaceFolder}/content/garden,type=bind,consistency=cached"
+	]
+}
